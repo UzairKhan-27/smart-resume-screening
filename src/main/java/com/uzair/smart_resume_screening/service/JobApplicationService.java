@@ -48,8 +48,11 @@ public class JobApplicationService {
         ResumeResponse resumeResponse = resumeMapper.toDto(resume);
         JobResponse jobResponse = jobMapper.toDto(job);
         String response = geminiService.askGemini(resumeResponse,jobResponse);
+        Response response1 = new Response();
         ObjectMapper objectMapper = new ObjectMapper();
         ResumeEvaluationResponse evaluation = objectMapper.readValue(response, ResumeEvaluationResponse.class);
+        response1.setResumeEvaluationResponse(evaluation);
+        responseRepo.save(response1);
         jobPersonRepo.save(jobPerson);
         return evaluation;
     }

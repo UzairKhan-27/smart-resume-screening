@@ -1,6 +1,7 @@
 package com.uzair.smart_resume_screening.model;
 
 import com.uzair.smart_resume_screening.dto.ResumeEvaluationResponse;
+import com.uzair.smart_resume_screening.service.ResumeEvaluationConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class Response {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Convert(converter = ResumeEvaluationConverter.class)
     @Column(columnDefinition = "TEXT")
-    private String evaluation;
+    private ResumeEvaluationResponse resumeEvaluationResponse;
 }
