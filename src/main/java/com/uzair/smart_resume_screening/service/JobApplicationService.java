@@ -1,15 +1,15 @@
 package com.uzair.smart_resume_screening.service;
 
-import com.uzair.smart_resume_screening.dto.CreateJobApplicationRequest;
-import com.uzair.smart_resume_screening.dto.JobApplicationResponse;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uzair.smart_resume_screening.dto.*;
 import com.uzair.smart_resume_screening.exception.JobNotFoundException;
 import com.uzair.smart_resume_screening.exception.PersonNotFoundException;
+import com.uzair.smart_resume_screening.mapper.JobMapper;
 import com.uzair.smart_resume_screening.mapper.JobPersonMapper;
+import com.uzair.smart_resume_screening.mapper.ResumeMapper;
 import com.uzair.smart_resume_screening.model.*;
-import com.uzair.smart_resume_screening.repo.JobPersonRepo;
-import com.uzair.smart_resume_screening.repo.JobRepo;
-import com.uzair.smart_resume_screening.repo.PersonRepo;
-import com.uzair.smart_resume_screening.repo.ResumeRepo;
+import com.uzair.smart_resume_screening.repo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,9 +25,13 @@ public class JobApplicationService {
     private final ResumeRepo resumeRepo;
     private final JobPersonRepo jobPersonRepo;
     private final ResumeService resumeService;
+    private final GeminiService geminiService;
     private final JobPersonMapper mapper;
+    private final ResumeMapper resumeMapper;
+    private final JobMapper jobMapper;
+    private final ResponseRepo responseRepo;
 
-    public JobApplicationResponse createJobApplication(MultipartFile file, CreateJobApplicationRequest dto)
+    public ResumeEvaluationResponse createJobApplication(MultipartFile file, CreateJobApplicationRequest dto)
             throws IOException {
         JobPerson jobPerson = new JobPerson();
         Resume resume = resumeService.parseResume(file);
@@ -41,7 +45,12 @@ public class JobApplicationService {
         jobPerson.setPerson(person);
         jobPerson.setResume(resume);
         jobPerson.setJob(job);
-        return mapper.toDto(jobPersonRepo.save(jobPerson));
-
+        ResumeResponse resumeResponse = resumeMapper.toDto(resume);
+        JobResponse jobResponse = jobMapper.toDto(job);
+        String response = geminiService.askGemini(resumeResponse,jobResponse);
+        ObjectMapper objectMapper = new ObjectMapper();
+        ResumeEvaluationResponse evaluation = objectMapper.readValue(response, ResumeEvaluationResponse.class);
+        jobPersonRepo.save(jobPerson);
+        return evaluation;
     }
 }

@@ -1,7 +1,9 @@
 package com.uzair.smart_resume_screening.controller;
 
+import com.google.api.client.json.Json;
 import com.uzair.smart_resume_screening.dto.CreateJobApplicationRequest;
 import com.uzair.smart_resume_screening.dto.JobApplicationResponse;
+import com.uzair.smart_resume_screening.dto.ResumeEvaluationResponse;
 import com.uzair.smart_resume_screening.service.JobApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -17,8 +19,8 @@ import java.io.IOException;
 public class JobApplicationController {
     private final JobApplicationService service;
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<JobApplicationResponse> createJobApplication(@RequestPart("file") MultipartFile file,
-                                                                       @RequestPart("data")
+    public ResponseEntity<ResumeEvaluationResponse> createJobApplication(@RequestPart("file") MultipartFile file,
+                                                                         @RequestPart("data")
                                                                        CreateJobApplicationRequest dto)
             throws IOException {
         return ResponseEntity.ok(service.createJobApplication(file,dto));
