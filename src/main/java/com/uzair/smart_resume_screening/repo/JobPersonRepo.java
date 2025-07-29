@@ -1,9 +1,9 @@
 package com.uzair.smart_resume_screening.repo;
 
-import com.uzair.smart_resume_screening.model.Person;
+import com.uzair.smart_resume_screening.model.JobPerson;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonRepo extends JpaRepository<Person,Integer> {
+public interface JobPersonRepo extends JpaRepository<JobPerson,Integer> {
 }
