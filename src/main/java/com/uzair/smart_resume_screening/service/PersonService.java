@@ -35,11 +35,13 @@ public class PersonService {
 
     public PersonResponse updatePerson(int id, UpdatePersonRequest dto) {
         Person person = repo.findById(id).orElseThrow(()-> new PersonNotFoundException(id));
+        checkExistingEmail(dto.email());
         mapper.update(person,dto);
         return mapper.toDto(repo.save(person));
     }
 
     public ResponseEntity<String> deletePerson(int id) {
+        checkExistingPerson(id);
         repo.deleteById(id);
         return ResponseEntity.ok().body("Deleted");
     }
@@ -50,4 +52,8 @@ public class PersonService {
             throw new EmailAlreadyInUseException(email);
         }
     }
+    private void checkExistingPerson(int id){
+        repo.findById(id).orElseThrow(()->new PersonNotFoundException(id));
+    }
+
 }
