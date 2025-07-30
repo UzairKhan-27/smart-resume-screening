@@ -33,18 +33,18 @@ public class JobApplicationController {
         return ResponseEntity.ok(service.createJobApplication(file,dto));
     }
 
-    @GetMapping("/{jobId}/{personId}")
+    @GetMapping("/jobs/{jobId}/persons/{personId}")
     public ResponseEntity<JobApplicationResponse> getJobApplication(@PathVariable int jobId,
                                                                     @PathVariable int personId){
         return ResponseEntity.ok(service.getJobApplication(jobId,personId));
     }
 
-    @GetMapping("/{jobId}")
+    @GetMapping("/jobs/{jobId}")
     public ResponseEntity<List<JobApplicationResponse>> getJobApplicationsByJob(@PathVariable int jobId){
         return ResponseEntity.ok(service.getJobApplicationsByJob(jobId));
     }
 
-    @DeleteMapping("/{jobId}/{personId}")
+    @DeleteMapping("/jobs/{jobId}/persons/{personId}")
     public ResponseEntity<String> deleteJobApplication(@PathVariable int jobId,
                                                        @PathVariable int personId){
         return ResponseEntity.ok(service.deleteJobApplication(jobId,personId));

@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ProblemDetail handlePersonNotFound(PersonNotFoundException ex, WebRequest request){
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,ex.getMessage());
-        problemDetail.setTitle("Not Found");
+        problemDetail.setTitle("Bad Request");
         return problemDetail;
     }
 
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ProblemDetail handleJobNotFound(JobNotFoundException ex,WebRequest request){
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,ex.getMessage());
-        problemDetail.setTitle("Not Found");
+        problemDetail.setTitle("Bad Request");
         return problemDetail;
     }
 
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ProblemDetail handleCourseNotFound(JobApplicationNotFoundException ex, WebRequest request){
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,ex.getMessage());
-        problemDetail.setTitle("Not Found");
+        problemDetail.setTitle("Bad Request");
         return problemDetail;
     }
 
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ProblemDetail handlePostNotFound(NonResumeFileUploadedException ex,WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,ex.getMessage());
-        problemDetail.setTitle("Not Found");
+        problemDetail.setTitle("Bad Request");
         return problemDetail;
     }
 
