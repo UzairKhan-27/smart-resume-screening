@@ -27,11 +27,11 @@ public class JobPerson implements Serializable {
     @JoinColumn(name = "job_id")
     private Job job;
 
-    @OneToOne
+    @OneToOne( cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "response_id")
     private Response response;
 
