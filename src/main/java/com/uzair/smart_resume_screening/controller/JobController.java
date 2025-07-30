@@ -5,6 +5,7 @@ import com.uzair.smart_resume_screening.dto.JobResponse;
 import com.uzair.smart_resume_screening.dto.UpdateJobRequest;
 import com.uzair.smart_resume_screening.mapper.JobMapper;
 import com.uzair.smart_resume_screening.service.JobService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +27,12 @@ public class JobController {
         return ResponseEntity.ok(service.getJob(id));
     }
     @PostMapping
-    public ResponseEntity<JobResponse> createJob(@RequestBody CreateJobRequest dto){
+    public ResponseEntity<JobResponse> createJob(@Valid @RequestBody CreateJobRequest dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createJob(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<JobResponse> updateJob(@PathVariable int id, @RequestBody UpdateJobRequest dto){
+    public ResponseEntity<JobResponse> updateJob(@PathVariable int id, @Valid @RequestBody UpdateJobRequest dto){
         return ResponseEntity.ok(service.updateJob(id,dto));
     }
 

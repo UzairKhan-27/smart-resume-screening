@@ -1,4 +1,6 @@
 package com.uzair.smart_resume_screening.dto;
 
-public record UpdateJobRequest(String description,String role) {
+import jakarta.validation.constraints.NotEmpty;
+
+public record UpdateJobRequest(@NotEmpty String description, @NotEmpty String role) {
 }

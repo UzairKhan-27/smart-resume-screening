@@ -4,6 +4,7 @@ import com.uzair.smart_resume_screening.dto.CreatePersonRequest;
 import com.uzair.smart_resume_screening.dto.PersonResponse;
 import com.uzair.smart_resume_screening.dto.UpdatePersonRequest;
 import com.uzair.smart_resume_screening.service.PersonService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +28,12 @@ public class PersonController {
         return ResponseEntity.ok(service.getPerson(id));
     }
     @PostMapping
-    public ResponseEntity<PersonResponse> createStudent(@RequestBody CreatePersonRequest dto){
+    public ResponseEntity<PersonResponse> createStudent(@Valid @RequestBody CreatePersonRequest dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createPerson(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonResponse> updateStudent(@PathVariable int id, @RequestBody UpdatePersonRequest dto){
+    public ResponseEntity<PersonResponse> updateStudent(@PathVariable int id, @Valid @RequestBody UpdatePersonRequest dto){
         return ResponseEntity.ok(service.updatePerson(id,dto));
 
     }

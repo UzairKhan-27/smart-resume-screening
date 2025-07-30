@@ -4,6 +4,7 @@ import com.uzair.smart_resume_screening.dto.CreateJobApplicationRequest;
 import com.uzair.smart_resume_screening.dto.JobApplicationResponse;
 import com.uzair.smart_resume_screening.dto.ResumeEvaluationResponse;
 import com.uzair.smart_resume_screening.service.JobApplicationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class JobApplicationController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResumeEvaluationResponse> createJobApplication(@RequestPart("file") MultipartFile file,
                                                                          @RequestPart("data")
-                                                                       CreateJobApplicationRequest dto)
+                                                                         @Valid CreateJobApplicationRequest dto)
             throws IOException {
         return ResponseEntity.ok(service.createJobApplication(file,dto));
     }
