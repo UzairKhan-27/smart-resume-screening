@@ -25,7 +25,10 @@ After reviewing all experiences:
 - Provide an overall rating for the candidate’s resume on a scale from 1 to 10 according to the analyzed experience along with job description.
 - Justify the overall score based on the quality, alignment with expected roles, and completeness of the resume.
 
--If uploaded file is not resume stick to expected output but keep EVERYTHING blank
+-If uploaded file is not resume throw error in the format:
+{
+    "error":[brief description of error]
+}
 Be objective, consistent, and concise.
 DO NOT MAKE ASSUMPTIONS.
 NEVER PRINT JSON MARKDOWN LIKE ```json.
