@@ -1,6 +1,5 @@
 package com.uzair.smart_resume_screening.exception;
 
-import com.uzair.smart_resume_screening.dto.JobApplicationResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import java.net.URI;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -37,7 +35,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(JobApplicationNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ProblemDetail handleCourseNotFound(JobApplicationNotFoundException ex, WebRequest request){
+    public ProblemDetail handleJobApplicationNotFound(JobApplicationNotFoundException ex, WebRequest request){
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,ex.getMessage());
         problemDetail.setTitle("Bad Request");
         return problemDetail;
@@ -45,7 +43,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NonResumeFileUploadedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ProblemDetail handlePostNotFound(NonResumeFileUploadedException ex,WebRequest request) {
+    public ProblemDetail handleNonResumeFileUploaded(NonResumeFileUploadedException ex,WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,ex.getMessage());
+        problemDetail.setTitle("Bad Request");
+        return problemDetail;
+    }
+
+    @ExceptionHandler(EmailAlreadyInUseException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ProblemDetail handleEmailAlreadyInUse(EmailAlreadyInUseException ex,WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,ex.getMessage());
         problemDetail.setTitle("Bad Request");
         return problemDetail;
