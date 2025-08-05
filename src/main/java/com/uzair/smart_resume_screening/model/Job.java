@@ -17,6 +17,7 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String role;
+    @Column(columnDefinition = "TEXT")
     private String description;
     @OneToMany(mappedBy = "job")
     private Set<JobPerson> jobPersons;
