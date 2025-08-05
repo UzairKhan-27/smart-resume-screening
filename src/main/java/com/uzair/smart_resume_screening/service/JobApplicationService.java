@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,17 +40,23 @@ public class JobApplicationService {
     public ResumeEvaluationResponse createJobApplication(MultipartFile file, CreateJobApplicationRequest dto)
             throws IOException {
         Resume resume = resumeService.parseResume(file);
-        Person person = getPerson(dto.person_id());
+        Person person = getPerson(dto.email());
         Job job = getJob(dto.job_id());
-        JobPersonPK jobPersonPK = setJobPersonCompositeKey(dto.person_id(),dto.job_id());
+        JobPersonPK jobPersonPK = setJobPersonCompositeKey(person.getId(),dto.job_id());
         ResumeEvaluationResponse resumeEvaluationResponse = getGeminiResponse(resume,job);
         saveJobPerson(jobPersonPK,job,person,resume,resumeEvaluationResponse);
         return resumeEvaluationResponse;
     }
 
-    private Person getPerson(int personId){
-        return personRepo.findById(personId).orElseThrow(()-> new PersonNotFoundException(personId));
+    private Person getPerson(String email) {
+        return personRepo.findByEmail(email)
+                .orElseGet(() -> {
+                    Person newPerson = new Person();
+                    newPerson.setEmail(email);
+                    return personRepo.save(newPerson);
+                });
     }
+
     private Job getJob(int jobId) {
         return jobRepo.findById(jobId).orElseThrow(()-> new JobNotFoundException(jobId));
     }
