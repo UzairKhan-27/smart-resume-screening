@@ -11,6 +11,9 @@ import com.uzair.smart_resume_screening.model.JobPerson;
 import com.uzair.smart_resume_screening.repo.JobPersonRepo;
 import com.uzair.smart_resume_screening.repo.JobRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +26,10 @@ public class JobService {
     private final JobMapper mapper;
     private final JobPersonRepo jobPersonRepo;
 
-    public List<JobResponse> getAllJobs() {
-        return mapper.toDto(repo.findAll());
+    public Page<JobResponse> getAllJobs(int page,int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Job> jobs = repo.findAll(pageable);
+        return jobs.map(mapper::toDto);
     }
 
     public JobResponse getJob(int id) {

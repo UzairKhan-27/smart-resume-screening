@@ -2,6 +2,8 @@ package com.uzair.smart_resume_screening.repo;
 
 import com.uzair.smart_resume_screening.model.JobPerson;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -24,4 +26,6 @@ public interface JobPersonRepo extends JpaRepository<JobPerson,Integer> {
 
     @Transactional
     void deleteAllByPersonId(int personId);
+
+    Page<JobPerson> findByJobId(int jobId, Pageable pageable);
 }

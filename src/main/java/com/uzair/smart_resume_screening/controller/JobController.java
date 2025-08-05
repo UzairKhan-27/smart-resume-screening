@@ -7,6 +7,7 @@ import com.uzair.smart_resume_screening.mapper.JobMapper;
 import com.uzair.smart_resume_screening.service.JobService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,9 @@ import java.util.List;
 public class JobController {
     private final JobService service;
     @GetMapping
-    public ResponseEntity<List<JobResponse>> getAllJobs(){
-        return ResponseEntity.ok(service.getAllJobs());
+    public ResponseEntity<Page<JobResponse>> getAllJobs(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "5") int size){
+        return ResponseEntity.ok(service.getAllJobs(page,size));
     }
     @GetMapping("/{id}")
     public ResponseEntity<JobResponse> getJob(@PathVariable int id){
