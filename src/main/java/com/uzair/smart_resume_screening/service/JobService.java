@@ -3,9 +3,12 @@ package com.uzair.smart_resume_screening.service;
 import com.uzair.smart_resume_screening.dto.CreateJobRequest;
 import com.uzair.smart_resume_screening.dto.JobResponse;
 import com.uzair.smart_resume_screening.dto.UpdateJobRequest;
+import com.uzair.smart_resume_screening.exception.JobApplicationNotFoundException;
 import com.uzair.smart_resume_screening.exception.JobNotFoundException;
 import com.uzair.smart_resume_screening.mapper.JobMapper;
 import com.uzair.smart_resume_screening.model.Job;
+import com.uzair.smart_resume_screening.model.JobPerson;
+import com.uzair.smart_resume_screening.repo.JobPersonRepo;
 import com.uzair.smart_resume_screening.repo.JobRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import java.util.List;
 public class JobService {
     private final JobRepo repo;
     private final JobMapper mapper;
+    private final JobPersonRepo jobPersonRepo;
 
     public List<JobResponse> getAllJobs() {
         return mapper.toDto(repo.findAll());
@@ -41,6 +45,10 @@ public class JobService {
 
     public ResponseEntity<String> deleteJob(int id) {
         Job job = repo.findById(id).orElseThrow(()-> new JobNotFoundException(id));
+        List<JobPerson> jobPersons = jobPersonRepo.findByJobId(id);
+        if(!jobPersons.isEmpty()){
+            jobPersonRepo.deleteAllByJobId(id);
+        }
         repo.deleteById(id);
         return ResponseEntity.ok("Job Deleted");
     }
