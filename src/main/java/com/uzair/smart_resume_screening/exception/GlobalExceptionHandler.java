@@ -30,6 +30,7 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleJobNotFound(JobNotFoundException ex,WebRequest request){
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,ex.getMessage());
         problemDetail.setTitle("Bad Request");
+        problemDetail.setProperty("exception","JobNotFoundException");
         return problemDetail;
     }
 
@@ -38,6 +39,7 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleJobApplicationNotFound(JobApplicationNotFoundException ex, WebRequest request){
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,ex.getMessage());
         problemDetail.setTitle("Bad Request");
+        problemDetail.setProperty("exception","JobApplicationNotFoundException");
         return problemDetail;
     }
 
@@ -46,6 +48,7 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleNonResumeFileUploaded(NonResumeFileUploadedException ex,WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,ex.getMessage());
         problemDetail.setTitle("Bad Request");
+        problemDetail.setProperty("exception","NonResumeFileUploadedException");
         return problemDetail;
     }
 
