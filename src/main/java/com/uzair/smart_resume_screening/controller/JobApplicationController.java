@@ -6,6 +6,8 @@ import com.uzair.smart_resume_screening.dto.ResumeEvaluationResponse;
 import com.uzair.smart_resume_screening.service.JobApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +42,10 @@ public class JobApplicationController {
     }
 
     @GetMapping("/jobs/{jobId}")
-    public ResponseEntity<List<JobApplicationResponse>> getJobApplicationsByJob(@PathVariable int jobId){
-        return ResponseEntity.ok(service.getJobApplicationsByJob(jobId));
+    public ResponseEntity<Page<JobApplicationResponse>> getJobApplicationsByJob(@PathVariable int jobId,
+                                                                                Pageable pageable)
+    {
+        return ResponseEntity.ok(service.getJobApplicationsByJob(jobId,pageable));
     }
 
     @DeleteMapping("/jobs/{jobId}/persons/{personId}")
