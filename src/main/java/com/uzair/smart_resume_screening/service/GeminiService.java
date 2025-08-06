@@ -65,7 +65,7 @@ NEVER PRINT JSON MARKDOWN LIKE ```json
       "score": 0
     }
   ],
-  "overall_evaluation": {
+  "overallEvaluation": {
     "summary": "[Concise summary of resume quality]",
     "score": 0
   }
