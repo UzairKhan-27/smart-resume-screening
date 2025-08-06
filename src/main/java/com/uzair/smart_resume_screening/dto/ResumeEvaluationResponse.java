@@ -9,7 +9,7 @@ public class ResumeEvaluationResponse {
 
     public List<Education> education;
     public List<Experience> experiences;
-    public OverallEvaluation overall_evaluation;
+    public OverallEvaluation overallEvaluation;
 
     public static class Education {
         public String degree;

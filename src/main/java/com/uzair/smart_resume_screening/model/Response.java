@@ -16,7 +16,7 @@ public class Response {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    private int score;
     @Convert(converter = ResumeEvaluationConverter.class)
     @Column(columnDefinition = "TEXT")
     private ResumeEvaluationResponse resumeEvaluationResponse;

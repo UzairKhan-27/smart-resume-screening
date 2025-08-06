@@ -13,6 +13,10 @@ import com.uzair.smart_resume_screening.mapper.ResumeMapper;
 import com.uzair.smart_resume_screening.model.*;
 import com.uzair.smart_resume_screening.repo.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,7 +74,7 @@ public class JobApplicationService {
         ResumeResponse resumeResponse = resumeMapper.toDto(resume);
         JobResponse jobResponse = jobMapper.toDto(job);
         String response = geminiService.askGemini(resumeResponse,jobResponse);
-        if(!response.contains("overall_evaluation")){
+        if(!response.contains("overallEvaluation")){
             throw new NonResumeFileUploadedException("Uploaded File Not A Resume");
         }
         ObjectMapper objectMapper = new ObjectMapper();
@@ -86,6 +90,8 @@ public class JobApplicationService {
 
         Response response = new Response();
         response.setResumeEvaluationResponse(resumeEvaluationResponse);
+        int score = resumeEvaluationResponse.getOverallEvaluation().score;
+        response.setScore(score);
         jobPerson.setResponse(response);
         jobPersonRepo.save(jobPerson);
     }
@@ -96,12 +102,15 @@ public class JobApplicationService {
         return jobPersonMapper.toDto(jobPerson);
     }
 
-    public List<JobApplicationResponse> getJobApplicationsByJob(int jobId) {
-        List<JobPerson> jobPersons = jobPersonRepo.findByJobId(jobId);
+    public Page<JobApplicationResponse> getJobApplicationsByJob(int jobId,Pageable pageable) {
+//        Sort sortOrder = Sort.by(selectedSort,direction);
+//        Pageable pageable = PageRequest.of(page,size,sortOrder);
+        Page<JobPerson> jobPersons = jobPersonRepo.findByJobId(jobId,pageable);
         if(jobPersons.isEmpty()){
             throw new JobApplicationNotFoundException(jobId,1);
         }
-        return jobPersonMapper.toDto(jobPersons);
+
+        return jobPersons.map(jobPersonMapper::toDto);
     }
 
     public String deleteJobApplication(int jobId, int personId) {
