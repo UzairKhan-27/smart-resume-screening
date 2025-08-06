@@ -6,7 +6,6 @@ import com.uzair.smart_resume_screening.dto.*;
 import com.uzair.smart_resume_screening.exception.JobApplicationNotFoundException;
 import com.uzair.smart_resume_screening.exception.JobNotFoundException;
 import com.uzair.smart_resume_screening.exception.NonResumeFileUploadedException;
-import com.uzair.smart_resume_screening.exception.PersonNotFoundException;
 import com.uzair.smart_resume_screening.mapper.JobMapper;
 import com.uzair.smart_resume_screening.mapper.JobPersonMapper;
 import com.uzair.smart_resume_screening.mapper.ResumeMapper;
@@ -14,15 +13,12 @@ import com.uzair.smart_resume_screening.model.*;
 import com.uzair.smart_resume_screening.repo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -106,7 +102,7 @@ public class JobApplicationService {
 //        Sort sortOrder = Sort.by(selectedSort,direction);
 //        Pageable pageable = PageRequest.of(page,size,sortOrder);
         Page<JobPerson> jobPersons = jobPersonRepo.findByJobId(jobId,pageable);
-        if(jobPersons.isEmpty()){
+        if(jobPersons.getTotalElements()==0){
             throw new JobApplicationNotFoundException(jobId,1);
         }
 
